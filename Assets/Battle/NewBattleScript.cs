@@ -18,7 +18,6 @@ public class NewBattleScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         mainLoop();
-        Thread.Sleep(10000);
 	}
 
     public List<string> insults;
@@ -91,18 +90,18 @@ public class NewBattleScript : MonoBehaviour {
     {
         //if (!gamePause)
         //{
+            //Start
             int insultIndex;
             System.Random rnd = new System.Random();
+            List<int> usedNumbers = [];
 
+            //First number
             insultIndex = rnd.Next(0, insults.Count);
-            print("Insult Index");
-            print(insultIndex);
-
             print(insultPowers[insultIndex]);
             print(insults[insultIndex]);
-
+            usedNumbers.Add(insultIndex);
             playerButtonOneText.text = insults[insultIndex];
-
+            
             //int insultIndex;
             //System.Random rnd = new System.Random();
 
