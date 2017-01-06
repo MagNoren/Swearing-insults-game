@@ -25,7 +25,18 @@ public class NewBattleScript : MonoBehaviour {
     /// HOLY FUCK YES IT WORKS 6/1/2017
     void getInsults() 
     {
-        var lines = File.ReadAllLines("Assets/Insults/vulgarInsults.txt");
+        
+        if (PlayerPrefs.GetString("SwearingAllowed") == "true")
+        {
+            //Can swear
+            var lines = File.ReadAllLines("Assets/Insults/vulgarInsults.txt");
+        }
+        else
+        {
+            //Can't swear
+            var lines = File.ReadAllLines("Assets/Insults/cleanInsults.txt");
+        }
+
         foreach (var line in lines) 
         {
             int index = Array.IndexOf(lines, line);
