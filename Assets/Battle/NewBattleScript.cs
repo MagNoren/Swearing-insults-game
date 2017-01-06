@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System;
 using System.IO;
+using System.Threading;
+
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEditor;
 
 public class NewBattleScript : MonoBehaviour {
 
@@ -13,11 +17,13 @@ public class NewBattleScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        mainLoop();
+        Thread.Sleep(10000);
 	}
 
     public List<string> insults;
     public List<int> insultPowers;
+
 
     /// <summary>
     /// Gets the insults.
@@ -25,16 +31,18 @@ public class NewBattleScript : MonoBehaviour {
     /// HOLY FUCK YES IT WORKS 6/1/2017
     void getInsults() 
     {
-        
+        //For public sake
+        var lines = File.ReadAllLines("Assets/Insults/cleanInsults.txt");
+        //Defaults to clean
         if (PlayerPrefs.GetString("SwearingAllowed") == "true")
         {
             //Can swear
-            var lines = File.ReadAllLines("Assets/Insults/vulgarInsults.txt");
+            lines = File.ReadAllLines("Assets/Insults/vulgarInsults.txt");
         }
         else
         {
             //Can't swear
-            var lines = File.ReadAllLines("Assets/Insults/cleanInsults.txt");
+            lines = File.ReadAllLines("Assets/Insults/cleanInsults.txt");
         }
 
         foreach (var line in lines) 
@@ -48,86 +56,92 @@ public class NewBattleScript : MonoBehaviour {
             {
                 //Is even: Add it to insults
                 insults.Add(line);
-                print("Insult");
-                print(line);
+                //print("Insult");
+                //print(line);
             }
             else
             {
                 //Is odd: Remove, add to insultPowers
                 insultPowers.Add(Int32.Parse(line));
-                print("Power");
-                print(line);
+                //print("Power");
+                //print(line);
             }
 
         }
 
-        print("Done");
-        //print(insults);
-        //print(insultPowers);
+        //print("Done");
+        print(insults);
+        print(insultPowers);
 
 
     }
 
-    //void getSomeInsults() 
-    //{
-            
+    //The button texts
+    public Text playerButtonOneText;
+    public Text playerButtonTwoText;
+    public Text playerButtonThreeText;
+    //The player powers
+    int insultOnePlayerPower;
+    int insultTwoPlayerPower;
+    int insultThreePlayerPower;
 
-    //    if (gameManager.swearsAllowed == true)
-    //    {
-    //        var lines = File.ReadAllLines("Assets\\Insults\\vulgarInsults.txt");
-    //        foreach (var line in lines)
-    //        {
-    //            insults.Add(line);
-    //        }
-    //        foreach (var insult in insults)
-    //        {
-    //            int index = insults.IndexOf(insult);
-    //            print(insult);
-    //            print(index);
-    //                if (index % 2 == 0)
-    //                {
-    //                    //Is even: Leave it
-    //                }
-    //                else
-    //             {
-    //                    //Is odd: Remove, add to insultPowers
-    //                    insultPowers.Add(Int32.Parse(insult));
-    //                    insults.Remove(insult);
-    //             }
-    //         }
+    int totalPlayerPower;
 
-    //            foreach (var item in insults)
-    //            {
-    //                print(item.ToString());
-    //            }
-    //            foreach (var item in insultPowers)
-    //            {
-    //                print(item.ToString());
-    //            }
+    void playerInsults()
+    {
+        //if (!gamePause)
+        //{
+            int insultIndex;
+            System.Random rnd = new System.Random();
 
-    //    }
-    //    else
-    //    {
-    //        //Double backslash because \ is escape so to use \ we escape the escape
-    //        var lines = File.ReadAllLines("Assets\\Insults\\cleanInsults.txt");
-    //        foreach (var line in lines)
-    //        {
-    //            insults.Add(line);
-    //        }
-    //        foreach (var insult in insults)
-    //        {
-    //            int index = insults.IndexOf(insult.ToString());
-    //            if (index % 2 == 0)
-    //            {
-    //                //Is even: Leave it
-    //            }
-    //            else
-    //            {
-    //                //Is odd: Remove, add to insultPowers
-    //                insultPowers.Add(Int32.Parse(insult));
-    //                insults.Remove(insult);
-    //            }
-    //        }
-    //    }
-    //}
+            insultIndex = rnd.Next(0, insults.Count);
+            print("Insult Index");
+            print(insultIndex);
+
+            print(insultPowers[insultIndex]);
+            print(insults[insultIndex]);
+
+            playerButtonOneText.text = insults[insultIndex];
+
+            //int insultIndex;
+            //System.Random rnd = new System.Random();
+
+            //insultIndex = rnd.Next(0, insults.Count);
+            //playerButtonOneText.text = insults[insultIndex];
+            //insultOnePlayerPower = insultPowers[insultIndex];
+
+            //insultIndex = rnd.Next(0, insults.Count);
+            //playerButtonOneText.text = insults[insultIndex];
+            //insultTwoPlayerPower = insultPowers[insultIndex];
+
+            //insultIndex = rnd.Next(0, insults.Count);
+            //playerButtonOneText.text = insults[insultIndex];
+            //insultThreePlayerPower = insultPowers[insultIndex];
+        //}
+
+        //gamePause = true;
+    }
+
+    void mainLoop()
+    {
+        //if (gamePause == false)
+        //{
+            //npcInsult();
+            playerInsults();
+            //gamePause = true;
+        //}
+
+        //optionSelect = true;
+
+        //if (totalPlayerPower > npcInsultPower && optionSelect == false)
+        //{
+        //    wins += 1;
+        //}
+        //else if (totalPlayerPower < npcInsultPower && optionSelect == false)
+        //{
+        //    losses += 1;
+        //}
+    }
+
+
 }
