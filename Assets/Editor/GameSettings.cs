@@ -4,8 +4,8 @@ using System.IO;
 
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 
 public class GameSettings : MonoBehaviour {
 
@@ -135,7 +135,7 @@ public class GameSettings : MonoBehaviour {
         {
             // Quit back to MainMenu
             case true:
-                EditorSceneManager.LoadScene("MainMenu");
+                SceneManager.LoadScene("MainMenu");
                 break;
             // Cancel
             case false:

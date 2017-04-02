@@ -6,7 +6,6 @@ using System.Threading;
 
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 
 public class NewBattleScript : MonoBehaviour {
 
@@ -36,22 +35,24 @@ public class NewBattleScript : MonoBehaviour {
 	void getInsults() 
 	{
 		//For public sake
-		var lines = File.ReadAllLines("Assets/Insults/cleanInsults.txt");
+		print((Resources.Load("vulgarInsults", typeof(TextAsset)) as TextAsset).text);
+		List<string> lines = new List<string>((Resources.Load("vulgarInsults", typeof(TextAsset)) as TextAsset).text.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None));
 		//Defaults to clean
 		if (PlayerPrefs.GetString("SwearingAllowed") == "true")
 		{
 			//Can swear
-			lines = File.ReadAllLines("Assets/Insults/vulgarInsults.txt");
+			lines = new List<string>((Resources.Load("vulgarInsults", typeof(TextAsset)) as TextAsset).text.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None));
 		}
 		else
 		{
 			//Can't swear
-			lines = File.ReadAllLines("Assets/Insults/cleanInsults.txt");
+			lines = new List<string>((Resources.Load("vulgarInsults", typeof(TextAsset)) as TextAsset).text.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None));
 		}
 
 		foreach (var line in lines) 
 		{
-			int index = Array.IndexOf(lines, line);
+			//print (line);
+			int index = lines.IndexOf(line);
 
 			if (index % 2 == 0)
 			{
@@ -63,8 +64,12 @@ public class NewBattleScript : MonoBehaviour {
 				//Is odd: Remove, add to insultPowers
 				insultPowers.Add(Int32.Parse(line));
 			}
-
 		}
+
+		//print ("Insults");
+		//print (insults.Count);
+		//print ("Powers");
+		//print (insultPowers.Count);
 
 	}
 
@@ -97,14 +102,14 @@ public class NewBattleScript : MonoBehaviour {
 			int insultIndex;
 
 			//First number
-			insultIndex = rnd.Next(0, insults.Count);
+			insultIndex = rnd.Next(0, insults.Count - 1);
 			usedNumbers.Add(insultIndex);
 			playerButtonOneText.text = insults[insultIndex];
 			insultOnePlayerPower = insultPowers[insultIndex];
 
 			while (true)
 			{
-				insultIndex = rnd.Next(0, insults.Count);
+				insultIndex = rnd.Next(0, insults.Count - 1);
 				//Checks the number hasn't been used
 				if (usedNumbers.Contains (insultIndex)) {
 					continue;
@@ -121,7 +126,7 @@ public class NewBattleScript : MonoBehaviour {
 
 			while (true)
 			{
-				insultIndex = rnd.Next(0, insults.Count);
+				insultIndex = rnd.Next(0, insults.Count - 1);
 				//Checks the number hasn't been used
 				if (usedNumbers.Contains (insultIndex)) {
 					continue;
@@ -139,7 +144,7 @@ public class NewBattleScript : MonoBehaviour {
 			//Make the bot insult power and that
 			while (true)
 			{
-				insultIndex = rnd.Next(0, insults.Count);
+				insultIndex = rnd.Next(0, insults.Count - 1);
 				//Checks the number hasn't been used
 				if (usedNumbers.Contains (insultIndex)) {
 					continue;
@@ -160,6 +165,9 @@ public class NewBattleScript : MonoBehaviour {
 		gamePause = true;
 	}
 
+	public Text winText;
+	public Text lossText;
+
 	void mainLoop()
 	{
 		if (gamePause == false)
@@ -175,12 +183,14 @@ public class NewBattleScript : MonoBehaviour {
 				wins += 1;
 				print ("win");
 				print (wins);
+				winText.text = wins.ToString();
 			}
 			else if (totalPlayerPower < botInsultPower)
 			{
 				losses += 1;
 				print("lose");
 				print(losses);
+				lossText.text = losses.ToString();
 			}
 
 			optionSelected = false;

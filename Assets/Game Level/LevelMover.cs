@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Attach this to all NPC gameObjects
@@ -39,7 +39,7 @@ public class LevelMover : MonoBehaviour {
                 if (Input.GetKeyDown("Space"))
                 {
                     PlayerPrefs.SetInt("characterNumber", characterNumber);
-                    EditorSceneManager.LoadScene("BattleScene");
+                    SceneManager.LoadScene("BattleScene");
                 }
             }
         }   
