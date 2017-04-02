@@ -23,6 +23,7 @@ public class NewBattleScript : MonoBehaviour {
     public List<string> insults;
     public List<int> insultPowers;
 
+	bool gamePause = false;
 
     /// <summary>
     /// Gets the insults.
@@ -79,6 +80,7 @@ public class NewBattleScript : MonoBehaviour {
     public Text playerButtonOneText;
     public Text playerButtonTwoText;
     public Text playerButtonThreeText;
+
     //The player powers
     int insultOnePlayerPower;
     int insultTwoPlayerPower;
@@ -86,14 +88,16 @@ public class NewBattleScript : MonoBehaviour {
 
     int totalPlayerPower;
 
+	System.Random rnd = new System.Random();
+
     void playerInsults()
     {
-        //if (!gamePause)
-        //{
+		//Run this whilst the game isn't paused
+        if (!gamePause)
+        {
             //Start
             int insultIndex;
-            System.Random rnd = new System.Random();
-            List<int> usedNumbers = [];
+			List<int> usedNumbers = new List<int>();
 
             //First number
             insultIndex = rnd.Next(0, insults.Count);
@@ -116,19 +120,18 @@ public class NewBattleScript : MonoBehaviour {
             //insultIndex = rnd.Next(0, insults.Count);
             //playerButtonOneText.text = insults[insultIndex];
             //insultThreePlayerPower = insultPowers[insultIndex];
-        //}
-
-        //gamePause = true;
+        }
+		//After loading the insults, the game pauses so we can get an answer
+        gamePause = true;
     }
 
     void mainLoop()
     {
-        //if (gamePause == false)
-        //{
+        if (gamePause == false)
+        {
             //npcInsult();
             playerInsults();
-            //gamePause = true;
-        //}
+        }
 
         //optionSelect = true;
 
@@ -142,5 +145,11 @@ public class NewBattleScript : MonoBehaviour {
         //}
     }
 
+
+	public void button1Pressed() 
+	{
+		totalPlayerPower = insultOnePlayerPower * rnd.Next (1, 4);
+		gamePause = false;
+	}
 
 }

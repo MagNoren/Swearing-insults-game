@@ -1,7 +1,7 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{E1F51C77-2ABD-B14C-5348-FE70F7FD0838}") = "Swearing-insults-game", "Assembly-CSharp.csproj", "{07364518-ED99-6FFB-6C2A-2D82BF4EF3CB}"
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swearing-insults-game", "Assembly-CSharp.csproj", "{07364518-ED99-6FFB-6C2A-2D82BF4EF3CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
