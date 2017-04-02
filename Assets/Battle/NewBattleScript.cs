@@ -24,6 +24,10 @@ public class NewBattleScript : MonoBehaviour {
 	public List<int> insultPowers;
 
 	bool gamePause = false;
+	bool optionSelected = false;
+
+	public int wins;
+	public int losses;
 
 	/// <summary>
 	/// Gets the insults.
@@ -48,31 +52,19 @@ public class NewBattleScript : MonoBehaviour {
 		foreach (var line in lines) 
 		{
 			int index = Array.IndexOf(lines, line);
-			//print("Index");
-			//print(index);
-			//print(line);
 
 			if (index % 2 == 0)
 			{
 				//Is even: Add it to insults
 				insults.Add(line);
-				//print("Insult");
-				//print(line);
 			}
 			else
 			{
 				//Is odd: Remove, add to insultPowers
 				insultPowers.Add(Int32.Parse(line));
-				//print("Power");
-				//print(line);
 			}
 
 		}
-
-		//print("Done");
-		print(insults);
-		print(insultPowers);
-
 
 	}
 
@@ -101,15 +93,11 @@ public class NewBattleScript : MonoBehaviour {
 		//Run this whilst the game isn't paused
 		if (!gamePause)
 		{
-
-			print (usedNumbers);
 			//Start
 			int insultIndex;
 
 			//First number
 			insultIndex = rnd.Next(0, insults.Count);
-			print(insultPowers[insultIndex]);
-			print(insults[insultIndex]);
 			usedNumbers.Add(insultIndex);
 			playerButtonOneText.text = insults[insultIndex];
 			insultOnePlayerPower = insultPowers[insultIndex];
@@ -123,8 +111,6 @@ public class NewBattleScript : MonoBehaviour {
 				}
 				else 
 				{
-					print(insultPowers[insultIndex]);
-					print(insults[insultIndex]);
 					usedNumbers.Add(insultIndex);
 					playerButtonTwoText.text = insults[insultIndex];
 					insultTwoPlayerPower = insultPowers[insultIndex];
@@ -142,8 +128,6 @@ public class NewBattleScript : MonoBehaviour {
 				}
 				else 
 				{
-					print(insultPowers[insultIndex]);
-					print(insults[insultIndex]);
 					usedNumbers.Add(insultIndex);
 					playerButtonThreeText.text = insults[insultIndex];
 					insultThreePlayerPower = insultPowers[insultIndex];
@@ -162,8 +146,6 @@ public class NewBattleScript : MonoBehaviour {
 				}
 				else 
 				{
-					print(insultPowers[insultIndex]);
-					print(insults[insultIndex]);
 					usedNumbers.Add(insultIndex);
 					botInsultText.text = insults[insultIndex];
 					botInsultPower = insultPowers [insultIndex] * rnd.Next (0, 4);
@@ -186,16 +168,23 @@ public class NewBattleScript : MonoBehaviour {
 			pickInsults();
 		}
 
-		//optionSelect = true;
+		if (optionSelected == true) 
+		{
+			if (totalPlayerPower > botInsultPower)
+			{
+				wins += 1;
+				print ("win");
+				print (wins);
+			}
+			else if (totalPlayerPower < botInsultPower)
+			{
+				losses += 1;
+				print("lose");
+				print(losses);
+			}
 
-		//if (totalPlayerPower > npcInsultPower && optionSelect == false)
-		//{
-		//    wins += 1;
-		//}
-		//else if (totalPlayerPower < npcInsultPower && optionSelect == false)
-		//{
-		//    losses += 1;
-		//}
+			optionSelected = false;
+		}	
 	}
 
 	/// <summary>
@@ -205,6 +194,7 @@ public class NewBattleScript : MonoBehaviour {
 	{
 		totalPlayerPower = insultOnePlayerPower * rnd.Next (1, 4);
 		gamePause = false;
+		optionSelected = true;
 	}
 
 	/// <summary>
@@ -214,6 +204,7 @@ public class NewBattleScript : MonoBehaviour {
 	{
 		totalPlayerPower = insultTwoPlayerPower * rnd.Next (1, 4);
 		gamePause = false;
+		optionSelected = true;
 	}
 
 	/// <summary>
@@ -223,6 +214,7 @@ public class NewBattleScript : MonoBehaviour {
 	{
 		totalPlayerPower = insultThreePlayerPower * rnd.Next (1, 4);
 		gamePause = false;
+		optionSelected = true;
 	}
 
 }
